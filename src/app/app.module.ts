@@ -9,8 +9,11 @@ import { AngularFireModule } from 'angularfire2';
 // Components
 import { AppComponent } from './app.component';
 
-// Styinling; Foundation 6
+// Stlying; Foundation 6
 
+
+// Services
+import { FirebaseService } from './services/firebase.service';
 
 // Firebase config
 export const firebaseConfig = {
@@ -33,7 +36,9 @@ export const firebaseConfig = {
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig)
   ],
-  providers: [],
+  providers: [
+    FirebaseService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
