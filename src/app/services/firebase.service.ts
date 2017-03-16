@@ -50,6 +50,10 @@ export class FirebaseService {
     return this.categories;
   }
 
+  addBusiness(newBusiness: Object){
+    return this.businesses.push(newBusiness)
+  }
+
 
 
 
