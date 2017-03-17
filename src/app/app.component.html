@@ -33,7 +33,7 @@
 </div>
 
 
-<!-- Add business form-->
+<!-- ADD business form-->
 <div *ngIf="appState == 'add'">
   <div class="row">
     <div class="large-12 columns">
@@ -104,6 +104,93 @@
           </div> 
         </div>
 
+        <!-- Submit -->
+        <div class="row">
+          <div class="large-12 columns">
+            <input type="submit" class="button" value="Submit">
+          </div>
+        </div>
+
+      </form>
+    
+    </div>
+  </div>
+</div>
+
+
+
+<!-- EDIT business form-->
+<div *ngIf="appState == 'edit'">
+  <div class="row">
+    <div class="large-12 columns">
+      <h3>Edit Business</h3>
+      
+      <form (ngSubmit)="updateBusiness(businessForm.value)" [formGroup]="businessForm">
+        
+        <!-- Company & Category-->
+        <div class="row">
+          <div class="large-6 columns">
+            <label>Company</label>
+            <input type="text" placeholder="Company Name" formControlName="company" value="{{activeCompany}}">
+          </div>
+          <div class="large-6 columns">
+            <label>Category</label>
+            <select formControlName="category" value="{{activeCategory}}">
+              <option value="0">Select</option>
+              <option *ngFor="let category of categories" value={{category.name}}>{{category.name}}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Years in business & descriptin-->
+        <div class="row">
+          <div class="medium-6 columns">
+            <label>Years In Business</label>
+            <input type="text" placeholder="Years in Business" formControlName="years_in_business" value="{{activeYearsInBusiness}}">
+          </div>
+          <div class="medium-6 columns">
+            <label>Description</label>
+            <textarea value="{{activeDescription}}"></textarea>
+          </div> 
+        </div>
+
+        <!-- Phone & Email -->
+        <div class="row">
+          <div class="medium-6 columns">
+            <label>Phone</label>
+            <input type="text" placeholder="Phone Number" formControlName="phone" value="{{activePhone}}">
+          </div>
+          <div class="medium-6 columns">
+            <label>Email</label>
+            <input type="text" placeholder="Email" formControlName="email" value="{{activeEmail}}">
+          </div> 
+        </div>
+
+        <!-- Street &  City -->
+        <div class="row">
+          <div class="medium-6 columns">
+            <label>Street Address</label>
+            <input type="text" placeholder="Street Address" formControlName="street_address" value="{{activeStreetAddress}}">
+          </div>
+          <div class="medium-6 columns">
+            <label>City</label>
+            <input type="text" placeholder="City" formControlName="city" value="{{activeCity}}">
+          </div> 
+        </div>
+
+        <!-- State & Zip-->
+        <div class="row">
+          <div class="medium-6 columns">
+            <label>State</label>
+            <input type="text" placeholder="State" formControlName="state" value="{{activeState}}">
+          </div>
+          <div class="medium-6 columns">
+            <label>Zipcode</label>
+            <input type="text" placeholder="Zipcode" formControlName="zipcode" value="{{activeZipcode}}">
+          </div> 
+        </div>
+
+        <!-- Submit -->
         <div class="row">
           <div class="large-12 columns">
             <input type="submit" class="button" value="Submit">
@@ -176,8 +263,8 @@
             <td>{{business.phone}}</td>
             <td>
               <button class="button" (click)="changeState('extend', business.$key)">More</button>
-              <button class="button secondary">Edit</button>
-              <button class="button alert">Delete</button>
+              <button class="button secondary" (click)="showEdit(business)">Edit</button>
+              <button class="button alert" (click)="deleteBusiness(business.$key)">Delete</button>
             </td>
           
           </tr>

@@ -26,6 +26,19 @@ export class AppComponent implements OnInit {
   activeKey: string;
   filteredCategory: string;
 
+  // vars for edit form
+  activeCompany: string;
+  activeCategory: string;
+  activeYearsInBusiness: number;
+  activeDescription: string;
+  activePhone: string;
+  activeEmail: string;
+  activeStreetAddress: string;
+  activeCity: string;
+  activeState: string;
+  activeZipcode: string;
+
+
 
   constructor(
     private _firebaseService: FirebaseService,
@@ -37,7 +50,7 @@ export class AppComponent implements OnInit {
   ngOnInit(){
     // initialize _formBuilder
     this.businessForm = this._formBuilder.group({
-      company: '',
+      company:  '',
       category: '',
       years_in_business: '',
       description: '',
@@ -99,8 +112,57 @@ export class AppComponent implements OnInit {
     newBusiness.created_at = created_at;
 
     this._firebaseService.addBusiness(newBusiness);
-
     this.changeState('default');
 }
+
+  /**
+   * 
+   * @param {object} business  
+   */
+  showEdit(business: Business){
+    // update app state
+    this.changeState('edit', business.$key);
+    
+    // capture values to prepopulate form
+    this.activeCompany = business.company;
+    this.activeCategory = business.category;
+    this.activeYearsInBusiness = business.years_in_business;
+    this.activeDescription = business.description;
+    this.activePhone = business.phone;
+    this.activeEmail = business.email;
+    this.activeStreetAddress = business.street_address;
+    this.activeCity = business.city;
+    this.activeState = business.state;
+    this.activeZipcode = business.zipcode;
+
+    // create new instance of form with default values
+    this.businessForm = this._formBuilder.group({
+      company:  this.activeCompany || '',
+      category: this.activeCategory || '',
+      years_in_business: this.activeYearsInBusiness || '',
+      description: this.activeDescription || '',
+      phone: this.activePhone || '',
+      email: this.activeEmail || '',
+      street_address: this.activeStreetAddress || '',
+      city: this.activeCity || '',
+      state: this.activeState || '',
+      zipcode: this.activeZipcode || ''
+    });
+
+  }
+
+
+  updateBusiness(business: Business){
+    // pass updated values to service
+    this._firebaseService.updateBusiness(this.activeKey, this.businessForm.value);
+
+    // return state to default
+    this.changeState('default');
+  }
+
+  deleteBusiness(key:string){
+    this._firebaseService.deleteBusiness(key);
+  }
+
 
 }
